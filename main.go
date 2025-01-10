@@ -1,17 +1,19 @@
 package main
 
+// 1:00:33 in video
 import (
 	"log"
 
-	"github.com/rxanders35/roundtable/comms"
+	"github.com/rxanders35/roundtable/rpc"
 )
 
 func main() {
-	opts := comms.TCPOpts{
+	opts := rpc.TCPOpts{
 		ListenAddress: ":3000",
-		Handshake:     comms.deniedHandshake,
+		Handshake:     rpc.NoOpHandshake,
+		Decoder:       rpc.DefaultDecoder{},
 	}
-	tr := comms.NewTCPTransport(":3000")
+	tr := rpc.NewTCPTransport(opts)
 	if err := tr.ListenAndAccept(); err != nil {
 		log.Fatal(err)
 	}
